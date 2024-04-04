@@ -1,58 +1,95 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div class="grid grid-cols-2">
+        <div class="col-span-1">
+            <div class="bg-gray-700 flex flex-col justify-center items-center h-[100vh]">
+                <h1 class="uppercase text-[10rem] text-white">KAS</h1>
+                <p class="uppercase text-xl text-white">end to end pos solution</p>
+            </div>
+        </div>
+        <div class="col-span-1">
+            <div class="flex flex-col justify-center items-center h-[100vh]">
+                <h1 class="uppercase text-3xl font-bold">KAS POS</h1>
+                <input type="password" name="" id="" v-model="passValue"
+                    class="transition-all duration-150 p-5 w-1/2 border border-gray-200 bg-gray-300 rounded-lg text-xl"
+                    disabled />
+                <div class="grid grid-cols-3 gap-6 mt-5 text-xl">
+                    <button
+                        v-for="number in [7, 8, 9, 4, 5, 6, 1, 2, 3, 0]"
+                        :key="number"
+                        class="px-12 py-8 rounded-lg bg-blue-500 hover:bg-indigo-500 transition-all duration-150 ease-linear text-white shadow-lg shadow-slate-400"
+                        :class="{ 'animate-click': clickedButton === number }"
+                        @click="getPassValue(number)"
+                        @animationend="clickedButton = null"
+                    >
+                        {{ number }}
+                    </button>
+                    <button
+                        class="px-12 py-8 rounded-lg bg-yellow-400 hover:bg-yellow-300 transition-all duration-150 ease-linear text-white"
+                        @click="deleteValue()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button
+                        class="px-12 py-8 rounded-lg bg-red-500 hover:bg-red-400 transition-all duration-150 ease-linear text-white"
+                        @click="deleteAllValue()">
+                        X
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+    name: 'HelloWorld',
+    data() {
+        return {
+            passValue: '',
+            clickedButton: null,
+        };
+    },
+    methods: {
+        getPassValue(value) {
+            this.passValue += value;
+            this.clickedButton = value;
+            const passWord = {
+                '144001': 'Sale 1',
+                '144002': 'Sale 2',
+                '144003': 'Sale 3',
+                '144004': 'Sale 4',
+                '238676': 'Store Manager'
+            };
+            if(Object.keys(passWord).includes(this.passValue)) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                Toast.fire({
+                    icon: 'success',
+                    title: `Welcome ${passWord[this.passValue]}`
+                });
+                this.$router.push('/dashboard');
+                localStorage.setItem('passValue', passWord[this.passValue]);
+                const storage = localStorage.getItem('passValue');
+                console.log(storage);
+            }
+        },
+        deleteValue() {
+            this.passValue = this.passValue.slice(0, -1);   
+        },
+        deleteAllValue() {
+            this.passValue = ''
+        },
+    },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style></style>
