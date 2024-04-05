@@ -18,11 +18,12 @@
           >
             Hide
           </div>
-          <div
+          <button
+            @click="switchView()"
             class="col-span-1 border border-gray-200 p-5 text-center hover:bg-slate-500 transition-all duration-150 ease-linear hover:cursor-pointer"
           >
             Switch
-          </div>
+          </button>
           <div
             class="col-span-1 border border-gray-200 p-5 text-center hover:bg-slate-500 transition-all duration-150 ease-linear hover:cursor-pointer"
           >
@@ -38,7 +39,7 @@
     </div>
   </div>
   <div class="grid grid-cols-3">
-    <div class="col-span-1 border-r-2 border-gray-200 w-[29.5rem] h-[100vh]">
+    <div class="col-span-1 border-r-2 border-gray-200 w-[29.5rem] h-[92vh]">
       <div class="h-32 w-full bg-blue-700">
         <p class="text-md text-white">Date: {{ getDate }}</p>
         <p class="text-md text-white">{{ `${getDate}-PLT${getDay}-${getCurrentTime}-${getCurrentDate}` }}</p>
@@ -104,6 +105,9 @@ export default {
         updateTime() {
         this.now = new Date();
         },
+        switchView() {
+            this.$router.push('/');
+        }
     },
     mounted() {
         setInterval(this.updateTime, 1000);
