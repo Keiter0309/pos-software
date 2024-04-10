@@ -37,17 +37,17 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="grid grid-cols-3">
-    <div class="col-span-1 border-r-2 border-gray-200 w-[29.5rem] h-[92vh]">
-      <div class="h-32 w-full bg-blue-700">
-        <p class="text-md text-white">Date: {{ getDate }}</p>
-        <p class="text-md text-white">{{ `${getDate}-PLT${getDay}-${getCurrentTime}-${getCurrentDate}` }}</p>
-        <p class="text-md text-white">LTK-NV-{{ passValue }}</p>
+    <div class="grid grid-cols-3">
+      <div class="col-span-1 border-r-2 border-gray-200 w-[29.5rem] h-[92vh]">
+        <div class="h-32 w-full bg-blue-700">
+          <p class="text-md text-white">Date: {{ getDate }}</p>
+          <p class="text-md text-white">{{ `${getDate}-PLT${getDay}-${getCurrentTime}-${getCurrentDate}` }}</p>
+          <p class="text-md text-white">LTK-NV-{{ passValue }}</p>
+        </div>
       </div>
-    </div>
-    <div class="col-span-2 ms-2">
-      <AppNavbar />
+      <div class="col-span-2 ms-2">
+        <AppNavbar />
+      </div>
     </div>
   </div>
 </template>
@@ -66,7 +66,7 @@ export default {
     },
     computed: {
         passValue() {
-            return localStorage.getItem('passValue');
+            return localStorage.getItem('StaffName');
         },
         getCurrentDate() {
             let today = new Date();
@@ -103,10 +103,10 @@ export default {
     },
     methods: {
         updateTime() {
-        this.now = new Date();
+          this.now = new Date();
         },
         switchView() {
-            this.$router.push('/');
+          this.$router.push('/');
         }
     },
     mounted() {
@@ -115,4 +115,6 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+
+</style>
