@@ -93,11 +93,13 @@ export default {
     onKeyUp(event) {
       const key = event.key;
       if (!isNaN(key)) {
-        this.getPassValue(Number(key));
+        this.appendDigitToPassword(Number(key));
       } else if (key === "Backspace") {
         this.deleteValue();
       } else if (key === "Delete") {
         this.deleteAllValue();
+      } else if (key === "Enter") {
+        this.submit();
       }
     },
     submit() {
@@ -126,7 +128,12 @@ export default {
             localStorage.setItem("StaffName", response.data["username"]);
           })
           .catch((error) => {
-            console.log(error);
+            this.showLoading = false;
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed'
+            })
+            console.log(error)
           });
       } else {
         Swal.fire({
@@ -148,7 +155,6 @@ export default {
 </script>
 
 <style>
-/* HTML: <div class="loader"></div> */
 #loader {
   position: fixed;
   z-index: 999;
